@@ -57,13 +57,12 @@ The sensor package creates the derived sensors (pressure drops, temperature chan
    1. Go to **Settings → Devices & Services → Helpers**
    2. You'll see a list of helpers starting with "Migraine Source:" — these are where you tell the system which of your entities to read from
    3. Click on each one and enter the entity ID of your matching sensor. For example, click on **"Migraine Source: Pressure"** and type in the entity ID of your pressure sensor (e.g. `sensor.openweathermap_pressure`)
-   4. If you don't have a sensor for a particular helper, just leave it as `not_configured` — that factor will be skipped
+   4. If you don't have a sensor for a particular helper, just leave it blank — that factor will be skipped
 
    **Option B: Edit the YAML directly**
    1. Open `packages/migraine_sensors.yaml` in a text editor
-   2. Find the `input_text:` section near the top — each helper has an `initial:` value
-   3. Replace `not_configured` with your entity IDs
-   4. Restart Home Assistant again for the changes to take effect
+   2. Find the `input_text:` section near the top
+   3. Set the entity IDs using the HA UI (Settings → Helpers) or via automations/scripts — values persist across restarts
 
 5. Sensors will begin populating within ~10 minutes as the pressure and temperature tracking automations run
 

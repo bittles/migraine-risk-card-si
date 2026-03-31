@@ -27,7 +27,7 @@
 #   ██████  DATA SOURCE CONFIGURATION  ██████                                 #
 #                                                                             #
 #   Edit the entity IDs below to match your Home Assistant setup.             #
-#   Leave any entity as "not_configured" if you don't have that sensor.       #
+#   Leave any entity blank if you don't have that sensor.                     #
 #   The system gracefully handles missing data — only configured factors      #
 #   will contribute to your risk score.                                       #
 #                                                                             #
@@ -38,6 +38,7 @@
 # We use input_text helpers to store your entity mappings.
 # This means you can also change them from the HA UI after installation
 # (Settings → Devices & Services → Helpers).
+# Values are persisted across restarts — just set them once.
 
 input_text:
 
@@ -45,21 +46,18 @@ input_text:
   migraine_source_weather:
     name: "Migraine Source: Weather Entity"
     icon: mdi:weather-partly-cloudy
-    initial: "weather.home"
     max: 255
 
-  # ── Temperature sensor (or leave as "not_configured" to use weather entity) ──
+  # ── Temperature sensor (or leave blank to use weather entity) ──
   migraine_source_temperature:
     name: "Migraine Source: Temperature"
     icon: mdi:thermometer
-    initial: "not_configured"
     max: 255
 
-  # ── Humidity sensor (or leave as "not_configured" to use weather entity) ──
+  # ── Humidity sensor (or leave blank to use weather entity) ──
   migraine_source_humidity:
     name: "Migraine Source: Humidity"
     icon: mdi:water-percent
-    initial: "not_configured"
     max: 255
 
   # ── Pressure sensor (REQUIRED — this is the most important migraine factor) ──
@@ -70,56 +68,48 @@ input_text:
   migraine_source_pressure:
     name: "Migraine Source: Pressure"
     icon: mdi:gauge
-    initial: "not_configured"
     max: 255
 
-  # ── Wind speed sensor (or leave as "not_configured" to use weather entity) ──
+  # ── Wind speed sensor (or leave blank to use weather entity) ──
   migraine_source_wind_speed:
     name: "Migraine Source: Wind Speed"
     icon: mdi:weather-windy
-    initial: "not_configured"
     max: 255
 
   # ── UV Index sensor ──
   migraine_source_uv_index:
     name: "Migraine Source: UV Index"
     icon: mdi:weather-sunny-alert
-    initial: "not_configured"
     max: 255
 
   # ── Air Quality Index (AQI) sensor ──
   migraine_source_aqi:
     name: "Migraine Source: AQI"
     icon: mdi:smog
-    initial: "not_configured"
     max: 255
 
   # ── PM2.5 sensor (optional, refines air quality scoring) ──
   migraine_source_pm25:
     name: "Migraine Source: PM2.5"
     icon: mdi:blur
-    initial: "not_configured"
     max: 255
 
   # ── PM10 sensor (optional, refines air quality scoring) ──
   migraine_source_pm10:
     name: "Migraine Source: PM10"
     icon: mdi:blur-linear
-    initial: "not_configured"
     max: 255
 
   # ── Ozone sensor (optional, refines air quality scoring) ──
   migraine_source_ozone:
     name: "Migraine Source: Ozone"
     icon: mdi:molecule
-    initial: "not_configured"
     max: 255
 
   # ── Weather warnings / alerts sensor (for thunderstorm detection) ──
   migraine_source_weather_warnings:
     name: "Migraine Source: Weather Warnings"
     icon: mdi:alert
-    initial: "not_configured"
     max: 255
 
   # ── Forecast text sensor (for thunderstorm / wind keyword detection) ──
@@ -127,38 +117,32 @@ input_text:
   migraine_source_forecast_text_today:
     name: "Migraine Source: Forecast Text (Today)"
     icon: mdi:text-box-outline
-    initial: "not_configured"
     max: 255
 
   # ── Tomorrow's forecast sensors (for next-day risk prediction) ──
   migraine_source_forecast_temp_max:
     name: "Migraine Source: Tomorrow Max Temp"
     icon: mdi:thermometer-chevron-up
-    initial: "not_configured"
     max: 255
 
   migraine_source_forecast_temp_min:
     name: "Migraine Source: Tomorrow Min Temp"
     icon: mdi:thermometer-chevron-down
-    initial: "not_configured"
     max: 255
 
   migraine_source_forecast_uv:
     name: "Migraine Source: Tomorrow UV Index"
     icon: mdi:weather-sunny-alert
-    initial: "not_configured"
     max: 255
 
   migraine_source_forecast_text:
     name: "Migraine Source: Tomorrow Forecast Text"
     icon: mdi:text-box-outline
-    initial: "not_configured"
     max: 255
 
   migraine_source_forecast_rain_chance:
     name: "Migraine Source: Tomorrow Rain Chance"
     icon: mdi:weather-rainy
-    initial: "not_configured"
     max: 255
 
 
