@@ -191,9 +191,9 @@ input_number:
     name: "6h Temperature Baseline"
     icon: mdi:thermometer-lines
     min: -20
-    max: 60
+    max: 110
     step: 0.1
-    unit_of_measurement: "°C"
+    unit_of_measurement: "°F"
     mode: box
 
   temperature_6h_reset_time:
@@ -216,7 +216,7 @@ template:
       # set of "migraine_*" entities used by the scoring system.
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-      - name: "Migraine Temperature (°C)"
+      - name: "Migraine Temperature (°F)"
         unique_id: migraine_temperature
         state: >
           {% set weather_entity = states('input_text.migraine_source_weather') %}
@@ -233,7 +233,7 @@ template:
           {% else %}
             {{ 0 }}
           {% endif %}
-        unit_of_measurement: "°C"
+        unit_of_measurement: "°F"
         icon: mdi:thermometer
 
       - name: "Migraine Humidity (%)"
@@ -280,7 +280,7 @@ template:
         unit_of_measurement: "hPa"
         icon: mdi:gauge
 
-      - name: "Migraine Wind Speed (km/h)"
+      - name: "Migraine Wind Speed (mph)"
         unique_id: migraine_wind_speed
         state: >
           {% set weather_entity = states('input_text.migraine_source_weather') %}
@@ -297,7 +297,7 @@ template:
           {% else %}
             {{ 0 }}
           {% endif %}
-        unit_of_measurement: "km/h"
+        unit_of_measurement: "mph"
         icon: mdi:weather-windy
 
       - name: "Migraine UV Index"
@@ -419,7 +419,7 @@ template:
 
       - name: "Migraine Temperature Change (6h)"
         unique_id: migraine_temperature_change_6h
-        unit_of_measurement: "°C"
+        unit_of_measurement: "°F"
         device_class: temperature
         state_class: measurement
         availability: >
@@ -465,7 +465,7 @@ template:
         unique_id: migraine_factor_temperature
         state: >
           {% set t = states('sensor.migraine_temperature') | float(0) %}
-          {% if t > 30 or t < 5 %}
+          {% if t > 86 or t < 41 %}
             2
           {% else %}
             0
@@ -476,9 +476,9 @@ template:
         unique_id: migraine_factor_temperature_change
         state: >
           {% set delta = states('sensor.migraine_temperature_change_6h') | float(0) %}
-          {% if delta >= 8 %}
+          {% if delta >= 14.4 %}
             2
-          {% elif delta >= 5 %}
+          {% elif delta >= 9 %}
             1
           {% else %}
             0
@@ -487,15 +487,15 @@ template:
         attributes:
           change_6h: "{{ states('sensor.migraine_temperature_change_6h') }}°C"
           direction: "{{ state_attr('sensor.migraine_temperature_change_6h', 'direction') }}"
-          scoring: "0pts (<5°C) | 1pt (5-8°C) | 2pts (≥8°C)"
+          scoring: "0pts (<9°F) | 1pt (9-14.4°F) | 2pts (≥14.4°F)"
 
       - name: "Migraine Factor: Wind"
         unique_id: migraine_factor_wind
         state: >
           {% set w = states('sensor.migraine_wind_speed') | float(0) %}
-          {% if w >= 50 %}
+          {% if w >= 31 %}
             2
-          {% elif w >= 35 %}
+          {% elif w >= 22 %}
             1
           {% else %}
             0
@@ -674,12 +674,12 @@ template:
           {% set fc_entity = states('input_text.migraine_source_forecast_text') %}
           {% set rain_entity = states('input_text.migraine_source_forecast_rain_chance') %}
           {# Temperature extremes #}
-          {% set tmax = states(tmax_entity) | float(0) if tmax_entity not in ['not_configured','unknown','unavailable','',none] else 20 %}
-          {% set tmin = states(tmin_entity) | float(0) if tmin_entity not in ['not_configured','unknown','unavailable','',none] else 15 %}
-          {% set temp_pts = 2 if (tmax > 30 or tmin < 5) else 1 if (tmax > 28 or tmin < 8) else 0 %}
+          {% set tmax = states(tmax_entity) | float(0) if tmax_entity not in ['not_configured','unknown','unavailable','',none] else 68 %}
+          {% set tmin = states(tmin_entity) | float(0) if tmin_entity not in ['not_configured','unknown','unavailable','',none] else 59 %}
+          {% set temp_pts = 2 if (tmax > 86 or tmin < 41) else 1 if (tmax > 82.4 or tmin < 46.4) else 0 %}
           {# Temperature swing (range as proxy for change) #}
           {% set temp_range = tmax - tmin %}
-          {% set swing_pts = 2 if temp_range >= 15 else 1 if temp_range >= 10 else 0 %}
+          {% set swing_pts = 2 if temp_range >= 27 else 1 if temp_range >= 18 else 0 %}
           {# UV #}
           {% set uv = states(uv_entity) | float(0) if uv_entity not in ['not_configured','unknown','unavailable','',none] else 0 %}
           {% set uv_pts = 2 if uv >= 8 else 1 if uv >= 6 else 0 %}
@@ -691,9 +691,9 @@ template:
           {% set wind_pts = 0 %}
           {% if 'damaging winds' in fc_text or 'destructive winds' in fc_text %}
             {% set wind_pts = 2 %}
-          {% elif 'strong winds' in fc_text or '45 to' in fc_text or '50 to' in fc_text or '55 to' in fc_text or '60 to' in fc_text %}
+          {% elif 'strong winds' in fc_text or '28 to' in fc_text or '31 to' in fc_text or '34 to' in fc_text or '37 to' in fc_text %}
             {% set wind_pts = 2 %}
-          {% elif '35 to' in fc_text or '40 to' in fc_text %}
+          {% elif '22 to' in fc_text or '25 to' in fc_text %}
             {% set wind_pts = 1 %}
           {% endif %}
           {% set thunder_pts = 2 if ('thunderstorm' in fc_text or 'thunder' in fc_text) else 0 %}
@@ -706,10 +706,10 @@ template:
         attributes:
           temp_max: >
             {% set e = states('input_text.migraine_source_forecast_temp_max') %}
-            {{ states(e) ~ '°C' if e not in ['not_configured','unknown','unavailable','',none] else 'N/A' }}
+            {{ states(e) ~ '°F' if e not in ['not_configured','unknown','unavailable','',none] else 'N/A' }}
           temp_min: >
             {% set e = states('input_text.migraine_source_forecast_temp_min') %}
-            {{ states(e) ~ '°C' if e not in ['not_configured','unknown','unavailable','',none] else 'N/A' }}
+            {{ states(e) ~ '°F' if e not in ['not_configured','unknown','unavailable','',none] else 'N/A' }}
           uv_index: >
             {% set e = states('input_text.migraine_source_forecast_uv') %}
             {{ states(e) if e not in ['not_configured','unknown','unavailable','',none] else 'N/A' }}
