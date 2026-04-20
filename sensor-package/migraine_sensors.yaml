@@ -755,8 +755,8 @@ template:
         icon: >
           {% if is_state(this.entity_id,'on') %}mdi:alert{% else %}mdi:check{% endif %}
 
-      - name: Pressure Drop Alert (4hPa)
-        unique_id: pressure_drop_alert_4hpa
+      - name: Migraine Pressure Drop Alert (4hPa)
+        unique_id: migraine_pressure_drop_alert_4hpa
         device_class: problem
         state: >
           {% set drop_6h = states('sensor.migraine_pressure_drop_6h') | float(0) %}
@@ -769,8 +769,8 @@ template:
           pressure_drop_24h: "{{ states('sensor.migraine_pressure_drop_24h') }} hPa"
           current_pressure: "{{ states('sensor.migraine_pressure_hpa') }} hPa"
 
-      - name: Poor Air Today
-        unique_id: poor_air_today
+      - name: Migraine Poor Air Today
+        unique_id: migraine_poor_air_today
         state: >
           {% set aqi = states('sensor.migraine_waqi_aqi') | float(0) %}
           {% set pm25 = states('sensor.migraine_waqi_pm25') | float(0) %}
