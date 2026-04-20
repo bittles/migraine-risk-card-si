@@ -163,7 +163,8 @@ input_number:
     max: 1100
     step: 0.1
     unit_of_measurement: "hPa"
-    icon: mdi:gauge-high
+    icon: mdi:gauge-full
+    mode: box
 
   migraine_pressure_24h_peak:
     name: "Migraine 24h Pressure Peak"
@@ -171,7 +172,8 @@ input_number:
     max: 1100
     step: 0.1
     unit_of_measurement: "hPa"
-    icon: mdi:gauge-high
+    icon: mdi:gauge-full
+    mode: box
 
   migraine_pressure_6h_reset_time:
     name: "Migraine 6h Pressure Reset Time"
