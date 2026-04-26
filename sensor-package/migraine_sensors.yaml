@@ -516,6 +516,8 @@ template:
             0
           {% endif %}
         icon: mdi:water-percent
+        attributes:
+          scoring: "0pts (>30% and <80%) | 1pts (<30%) | 2pts (>80%)"
 
       - name: "Migraine Factor: Temperature"
         unique_id: migraine_factor_temperature
@@ -527,6 +529,8 @@ template:
             0
           {% endif %}
         icon: mdi:thermometer-alert
+        attributes:
+          scoring: "0pts (>41°F and <86°F) | 2pts (<41°F or >86°F)"
 
       - name: "Migraine Factor: Temperature Change"
         unique_id: migraine_factor_temperature_change
@@ -557,6 +561,8 @@ template:
             0
           {% endif %}
         icon: mdi:weather-windy
+        attributes:
+          scoring: "0pts (<22mph) | 1pts (22-31mph) | 2pts (≥31mph)"
 
       - name: "Migraine Factor: UV / Sun"
         unique_id: migraine_factor_uv_sun
@@ -570,6 +576,8 @@ template:
             0
           {% endif %}
         icon: mdi:white-balance-sunny
+        attributes:
+          scoring: "0pts (<6) | 1pts (≥6) | 2pts (≥8)"
 
       - name: "Migraine Factor: Air Quality"
         unique_id: migraine_factor_air_quality
@@ -590,6 +598,11 @@ template:
           pm25_ugm3: "{{ states('sensor.migraine_waqi_pm25') }}"
           pm10_ugm3: "{{ states('sensor.migraine_waqi_pm10') }}"
           o3_ugm3: "{{ states('sensor.migraine_waqi_o3') }}"
+          scoring: "aqi points + pm2.5/pm10/ozone points (max of 3)"
+          aqi_points: "0pts (<=50) | 1pts (101-150) | 2pts (>=150)"
+          pm25_points: "1pts (>=25ug/m3)"
+          pm10_points: "1pts (>=50ug/m3)"
+          o3_points: "1pts (>=120ug/m3)"
 
       - name: "Migraine Factor: Thunderstorm Nearby"
         unique_id: migraine_factor_thunderstorm_nearby
@@ -835,6 +848,7 @@ template:
         attributes:
           aqi: "{{ states('sensor.migraine_waqi_aqi') }}"
           pm25: "{{ states('sensor.migraine_waqi_pm25') }}"
+          poor_if: "aqi > 100 or pm2.5 >=25"
 
 
 ###############################################################################
