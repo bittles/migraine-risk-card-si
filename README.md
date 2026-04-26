@@ -1,4 +1,5 @@
 # Migraine Risk Card for Home Assistant fork with ºF for temperature and mph for wind speed (instead of ºC and km/h, pressure left at hPa)
+## Also migrated temperature baseline and pressure peaks from input_numbers and automations to an sql sensor and statistics sensor for reliability.  Added attribute to factor sensors with quick references to scoring cutoffs.
 
 A science-backed environmental migraine risk monitoring card for Home Assistant. Tracks 9 weather and air quality factors known to trigger migraines and displays a composite risk score with a visual gauge.
 
