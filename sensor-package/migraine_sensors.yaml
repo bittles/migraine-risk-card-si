@@ -476,7 +476,16 @@ template:
           {% set current = states('sensor.migraine_temperature') | float(0) %}
           {% set baseline = states('sensor.migraine_temperature_6h_baseline') | float(0) %}
           {{ (current - baseline) | abs | round(1) }}
-        icon: mdi:thermometer-chevron-up
+        icon: >
+            {% set current = states('sensor.migraine_temperature') | float(0) %}
+            {% set baseline = states('sensor.migraine_temperature_6h_baseline') | float(0) %}
+            {% if current > baseline + 0.5 %}
+              mdi:thermometer-chevron-up
+            {% elif current < baseline - 0.5 %}
+              mdi:thermometer-chevron-down
+            {% else %}
+              mdi:thermometer-chevron-right
+            {% endif %}
         attributes:
           current_temp: "{{ states('sensor.migraine_temperature') }}"
           baseline_temp_6h: "{{ states('sensor.migraine_temperature_6h_baseline') }}"
